@@ -39,44 +39,73 @@ import "fmt"
 
 func main() {
 
-	foo := [][]int{{1, 4, 7, 11, 15},
-		{2, 5, 8, 12, 19},
-		{3, 6, 9, 16, 22},
-		{10, 13, 14, 17, 24},
-		{18, 21, 23, 26, 30}}
+	foo := [][]int{{-5}}
+	//foo := [][] int{{-1, 3}}
 
-	fmt.Println(findNumberIn2DArray(foo, 30))
+	fmt.Println(findNumberIn2DArray(foo, -10))
 }
 
 func findNumberIn2DArray(matrix [][]int, target int) bool {
 
-	x := len(matrix)
-	if x == 0 {
+	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return false
 	}
 
-	y := len(matrix[0])
-	if y == 0 {
-		return false
-	}
+	var x, y int
 
-	for i := 0; i < x; i++ {
+	for {
 
-		for j := 0; j < y; j++ {
+		i := matrix[x][y]
 
-			if target == matrix[i][j] {
-				return true
+		if i == target {
+			return true
+		}
+
+		if i < target {
+
+			x, y = right(x, y)
+
+			if x >= len(matrix) || matrix[x][y] > target {
+				x, y = left(x, y)
+				x, y = down(x, y)
+				if y >= len(matrix[0]) {
+					return false
+				}
 			}
 
-			if target > matrix[i][j] {
-				continue
-			} else {
-				break
+		}
+
+		if i > target {
+			x, y = left(x, y)
+			if y >= len(matrix[0]) {
+				return false
+			}
+			if x < 0 {
+				return false
 			}
 
 		}
 
 	}
-	return false
 
+}
+
+func down(x, y int) (int, int) {
+	y++
+	return x, y
+}
+
+func up(x, y int) (int, int) {
+	y--
+	return x, y
+}
+
+func right(x, y int) (int, int) {
+	x++
+	return x, y
+}
+
+func left(x, y int) (int, int) {
+	x--
+	return x, y
 }
