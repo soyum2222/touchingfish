@@ -1,0 +1,4 @@
+GLOBL ·ID(SB),$8
+
+DATA ·ID+0(SB)/1,$0XFF
+
