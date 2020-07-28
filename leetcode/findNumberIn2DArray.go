@@ -37,6 +37,9 @@ import "fmt"
 //链接：https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
+
+// 思路： 先从坐标（0，0）开始往右找，如果（x+1,y）> target ,那么就向下找
+// 如果（x,y+1）> target 那么就往左找，即下一个坐标为（x-1,y+1）
 func main() {
 
 	foo := [][]int{{-5}}
@@ -65,6 +68,7 @@ func findNumberIn2DArray(matrix [][]int, target int) bool {
 
 			x, y = right(x, y)
 
+			// roll back
 			if x >= len(matrix) || matrix[x][y] > target {
 				x, y = left(x, y)
 				x, y = down(x, y)

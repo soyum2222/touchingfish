@@ -22,6 +22,7 @@ import "fmt"
 //链接：https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof
 //著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
+// 这题我在书上看过，思路为把值移动到他作为索引的位子，如果该位子有和他相等的值，那么就重复 这样最大O（n）复杂度
 func main() {
 	fmt.Println(findRepeatNumber([]int{0, 1, 2, 3, 4, 11, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}))
 }

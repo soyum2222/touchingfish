@@ -24,6 +24,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
+// 用一个中间变量保存上一个节点的地址，寻找到下一节点后把地址替换为上一个节点
 func main() {
 	fmt.Println(reversePrint(factory([]int{1, 2, 3})))
 }
