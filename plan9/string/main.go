@@ -7,4 +7,5 @@ import (
 
 func main() {
 	fmt.Println(pkg.S)
+	fmt.Println(pkg.H)
 }
