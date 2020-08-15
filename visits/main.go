@@ -103,6 +103,8 @@ func main() {
 	flag.StringVar(&certfile, "cert", "./certfile", "")
 	flag.StringVar(&keyfile, "key", "./keyfile", "")
 
+	flag.Parse()
+
 	endurance()
 	e := gin.Default()
 	t, err := template.New("a").Parse(temp)
@@ -112,7 +114,8 @@ func main() {
 
 	e.GET("/:repo/visits", func(context *gin.Context) {
 
-		context.Header("content-type", "text/html")
+		context.Header("content-type", "image/svg+xml;charset=utf-8")
+		context.Header("cache-control", " max-age=0, no-cache, no-store, must-revalidate")
 
 		mu.Lock()
 
@@ -137,6 +140,7 @@ func main() {
 
 	})
 
+	//e.Run(addr)
 	e.RunTLS(addr, certfile, keyfile)
 
 }

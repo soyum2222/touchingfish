@@ -122,9 +122,16 @@ func (b *BytePool) idle(size int64) (int64, int64) {
 							continue
 						}
 
-						if remain < 64 && b.m[j]&((1<<(remain+1))-1) == 0 {
-							end += remain
-							return begin, end
+						if remain < 64 {
+
+							if b.m[j]&((1<<(remain+1))-1) == 0 {
+								end += remain
+								return begin, end
+							}
+							bit = end
+							i = j
+							break
+
 						}
 
 					}
@@ -147,6 +154,7 @@ func (b *BytePool) idle(size int64) (int64, int64) {
 						goto loop
 					} else {
 						bit = end
+						i = j
 						break
 					}
 				}
