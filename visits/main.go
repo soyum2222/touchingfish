@@ -112,16 +112,29 @@ func main() {
 		panic(err)
 	}
 
-	e.GET("/:repo/visits", func(context *gin.Context) {
+	e.GET("/:name/:repo/visitor", func(context *gin.Context) {
 
-		context.Header("content-type", "image/svg+xml;charset=utf-8")
-		context.Header("cache-control", " max-age=0, no-cache, no-store, must-revalidate")
+		context.Header("content-type", "image/svg+xml; charset=utf-8")
+		context.Header("Cache-Control", "max-age=0, no-cache, no-store, must-revalidate")
+		context.Header("X-Cache", "MISS")
+		context.Header("X-Cache-Hits", "0")
 
 		mu.Lock()
 
-		m[context.Param("repo")] += 1
+		name := context.Param("name")
+		if name == "" {
+			return
+		}
 
-		count := m[context.Param("repo")]
+		repo := context.Param("repo")
+		if repo == "" {
+			return
+		}
+
+		key := name + "@" + repo
+		m[key] += 1
+
+		count := m[key]
 
 		var value string
 		if count > 1000 {
@@ -134,13 +147,12 @@ func main() {
 			value = strconv.Itoa(count)
 		}
 
-		t.Execute(context.Writer, foo{Key: "visits", Value: value})
+		t.Execute(context.Writer, foo{Key: "visitor", Value: value})
 
 		mu.Unlock()
 
 	})
 
-	//e.Run(addr)
 	e.RunTLS(addr, certfile, keyfile)
 
 }
